@@ -1,25 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import LoginPage from './pages/login/LoginPage';
+import RegistPage from './pages/regist/RegistPage';
 import './App.css';
+
+
+function ButtonLog() {
+  const navigate = useNavigate();
+
+  return (
+    <button 
+      onClick={() => navigate('/login')}
+      className="modern-button"
+    >
+      Войти
+    </button>
+  );
+}
+
+function ButtonRegist() {
+  const navigate = useNavigate();
+
+  return (
+    <button
+      onClick={() => navigate('/regist')}
+      className="modern-button"
+    >
+      Регистрация
+    </button>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={
+          <div className="app-container">
+            <div className="welcome-card">
+              <h1>Добро пожаловать!</h1>
+              <h3>Что бы продолжить выбери действие</h3>
+              <ButtonLog />
+              <ButtonRegist />
+            </div>
+          </div>
+        } />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/regist" element={<RegistPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
