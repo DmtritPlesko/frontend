@@ -1,6 +1,7 @@
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import LoginPage from './pages/login/LoginPage';
-import RegistPage from './pages/regist/RegistPage';
+import { BrowserRouter, Routes, Route, useNavigate, Navigate,Outlet } from 'react-router-dom';
+import LoginPage from './pages/auth/login/LoginPage';
+import RegistPage from './pages/auth/regist/RegistPage';
+import HomePage from './pages/home/HomePage';
 import './App.css';
 
 
@@ -30,6 +31,12 @@ function ButtonRegist() {
   );
 }
 
+const ProtectedRoute = () => {
+  const isAuthenticated = !!localStorage.getItem('access_token');
+  
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+};
+
 function App() {
   return (
     <BrowserRouter>
@@ -44,8 +51,14 @@ function App() {
             </div>
           </div>
         } />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage/>} />
         <Route path="/regist" element={<RegistPage />} />
+        
+        {/* Защищенные маршруты */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/home" element={<HomePage />} />
+          {/* Добавьте сюда другие защищенные маршруты */}
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -1,23 +1,31 @@
 import React, { useState } from 'react';
-import api from '../../api';
+import { useNavigate } from 'react-router-dom';
+import api from '../../../api';
 import './LoginPage.css';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     try {
-      const response = await api.post('/auth/login', { email, password });
-      console.log('Успешный вход:', response.data);
-      localStorage.setItem('access_token', response.data.accessToken);
-      window.location.href = '/dashboard';
+      const response = await api.post('http://localhost:8081/api/v1/auth/login', { 
+        email, 
+        password 
+      });
+      
+      // Сохраняем токен в localStorage
+      localStorage.setItem('access_token', response.data);
+      
+      // Редирект после успешного входа
+      navigate('/home');
     } catch (error) {
-      console.error('Ошибка входа:', error);
       setError('Неверный email или пароль');
+      console.error('Ошибка входа:', error);
     }
   };
 
