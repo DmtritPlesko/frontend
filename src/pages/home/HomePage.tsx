@@ -20,9 +20,28 @@ function HomePage() {
         setCourses(mockCourses);
     }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem('access_token');
-        navigate('/');
+    const handleLogout = async () => {
+        try {
+            // Сначала делаем POST-запрос на бэкенд
+            const response = await fetch('http://localhost:8081/api/v1/auth/logout', {
+                method: 'POST',
+                credentials: 'include'
+            });
+    
+            // Проверяем статус ответа
+            if (!response.ok) {
+                throw new Error(`Ошибка при выходе: ${response.status}`);
+            }
+    
+            // Удаляем токен из localStorage
+            localStorage.removeItem('access_token');
+    
+            // Перенаправляем на главную страницу
+            navigate('/');
+        } catch (error) {
+            console.error('Ошибка при попытке выйти:', error);
+            // Можно добавить обработку ошибки здесь
+        }
     };
 
     const handleAddCourse = () => {
@@ -82,7 +101,7 @@ function HomePage() {
                                 navigate('/my_course');
                                 setShowMenu(false);
                             }}
-                        >
+                        > 
                             Мои курсы
                         </div>
                         <div 

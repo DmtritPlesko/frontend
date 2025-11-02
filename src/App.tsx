@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, useNavigate, Navigate,Outlet } from 'reac
 import LoginPage from './pages/auth/login/LoginPage';
 import RegistPage from './pages/auth/regist/RegistPage';
 import HomePage from './pages/home/HomePage';
+import ProfilePage from './pages/profile/Profile'
 import './App.css';
 
 
@@ -57,6 +58,7 @@ function App() {
         {/* Защищенные маршруты */}
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<HomePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           {/* Добавьте сюда другие защищенные маршруты */}
         </Route>
       </Routes>

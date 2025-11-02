@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Profile.css'; // Используем ваши стили (переименовал .regist-container в .profile-container)
+import './Profile.css'; 
 
 interface UserData {
-  fullName: string;
-  groupName: string;
+  name: string;
+  nameGroup: string;
   email: string;
   password: string;
 }
@@ -13,8 +13,8 @@ interface UserData {
 const Profile = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<UserData>({
-    fullName: '',
-    groupName: '',
+    name: '',
+    nameGroup: '',
     email: '',
     password: ''
   });
@@ -28,7 +28,7 @@ const Profile = () => {
       try {
         setIsLoading(true);
         const token = localStorage.getItem('access_token');
-        const response = await axios.get('http://localhost:8082/api/v1/user/me', {
+        const response = await axios.get('http://localhost:8080/api/v1/user/me', {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -101,12 +101,12 @@ const Profile = () => {
         {isEditing ? (
           <form className="profile-form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="fullName">ФИО</label>
+              <label htmlFor="name">ФИО</label>
               <input
                 type="text"
-                id="fullName"
-                name="fullName"
-                value={userData.fullName}
+                id="name"
+                name="name"
+                value={userData.name}
                 onChange={handleInputChange}
                 required
               />
@@ -116,9 +116,9 @@ const Profile = () => {
               <label htmlFor="groupName">Группа</label>
               <input
                 type="text"
-                id="groupName"
-                name="groupName"
-                value={userData.groupName}
+                id="nameGroup"
+                name="nameGroup"
+                value={userData.nameGroup}
                 onChange={handleInputChange}
                 required
               />
@@ -170,11 +170,11 @@ const Profile = () => {
           <div className="profile-info">
             <div className="info-row">
               <span className="info-label">ФИО:</span>
-              <span className="info-value">{userData.fullName}</span>
+              <span className="info-value">{userData.name}</span>
             </div>
             <div className="info-row">
               <span className="info-label">Группа:</span>
-              <span className="info-value">{userData.groupName}</span>
+              <span className="info-value">{userData.nameGroup}</span>
             </div>
             <div className="info-row">
               <span className="info-label">Email:</span>
